@@ -1,0 +1,15 @@
+name: 'factory_lakehouse'
+version: '1.0.0'
+config-version: 2
+
+profile: 'factory_lakehouse'
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+
+models:
+  factory_lakehouse:
+    silver:
+      +materialized: view
+    gold:
+      +materialized: table

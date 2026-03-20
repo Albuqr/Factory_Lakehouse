@@ -1,0 +1,102 @@
+models:
+  - name: gold_budget_vs_actual
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - month_key
+            - cost_center
+    columns:
+      - name: budget_amount_brl
+        tests:
+          - not_null
+      - name: actual_amount_brl
+        tests:
+          - not_null
+      - name: month_key
+        tests:
+          - not_null
+      - name: cost_center
+        tests:
+          - not_null
+      - name: variance_brl
+        tests:
+          - not_null
+      - name: variance_pct
+        tests:
+          - not_null
+      - name: status_flag
+        tests:
+          - not_null
+          - accepted_values:
+              values: [ 'green', 'yellow', 'red', 'grey']
+  - name: gold_cost_per_unit
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - month_key
+            - sku_name
+    columns:
+      - name: sku_name
+        tests:
+          - not_null
+      - name: planned_units
+        tests:
+          - not_null
+      - name: planned_cost_brl
+        tests:
+          - not_null
+      - name: month_key
+        tests:
+          - not_null
+      - name: cost_per_planned_unit_brl
+        tests:
+          - not_null
+      - name: units_sold
+      - name: revenue_brl
+      - name: unit_price_brl
+        tests:
+          - not_null
+      - name: gross_margin_brl
+        tests:
+          - not_null
+      - name: gross_margin_pct
+        tests:
+          - not_null
+      - name: product_line
+        tests:
+          - not_null
+          - accepted_values:
+              values: [ 'trufa', 'pao_de_mel' ]
+
+  - name: gold_equipment_status
+    columns:
+      - name: item_id
+        tests:
+          - not_null
+          - unique
+      - name: equipment_name
+        tests:
+          - not_null
+      - name: machine_type
+        tests:
+          - not_null
+      - name: service_interval_days
+        tests:
+          - not_null
+      - name: next_due_date
+        tests:
+          - not_null
+      - name: days_until_due
+        tests:
+          - not_null
+      - name: maintenance_date
+      - name: production_line
+        tests:
+          - not_null
+          - accepted_values:
+              values: [ 'trufa', 'pao_de_mel', 'both' ]
+      - name: maintenance_status
+        tests:
+          - not_null
+          - accepted_values:
+              values: [ 'OVERDUE', 'DUE_SOON', 'OK' ]
