@@ -7,6 +7,6 @@ SELECT
     be._ingested_at,
     se.machine_type,
     se.production_line
-FROM {{ source('bronze', 'bronze_equipment') }} AS be
-LEFT JOIN {{ source('seeds', 'seed_equipment_types') }} AS se
+FROM {{ ref('seed_equipment_types') }} AS be
+LEFT JOIN {{ ref('seed_equipment_types') }} AS se
     ON be.item_id = se.item_id

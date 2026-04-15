@@ -1,0 +1,119 @@
+raw_string,tax_id,supplier_name,category
+Ameripan Doces,00.000.000/0001-00,Ameripan Doces,Materia_Prima
+Pedágio,00.000.000/0002-00,Pedagio Diversos,Logistica
+Materia Prima,00.000.000/0003-00,Fornecedor Materia Prima,Materia_Prima
+Colcha,00.000.000/0004-00,Fornecedor Colcha,Materia_Prima
+Oleo,00.000.000/0005-00,Fornecedor Oleo,Materia_Prima
+Danilo Marcenaria,00.000.000/0006-00,Danilo Marcenaria,Manutencao
+Cheque Jé Doces,00.000.000/0007-00,Je Doces,Materia_Prima
+Pagamento Jé,00.000.000/0007-00,Je Doces,Materia_Prima
+Alquimix,00.000.000/0008-00,Alquimix,Materia_Prima
+New Etiquetas ped 864,00.000.000/0009-00,New Etiquetas,Embalagem
+New Etiquetas  trufas,00.000.000/0009-00,New Etiquetas,Embalagem
+New Etiq Pao de mel,00.000.000/0009-00,New Etiquetas,Embalagem
+New etiquetas,00.000.000/0009-00,New Etiquetas,Embalagem
+Bobina 77 kg,00.000.000/0010-00,Fornecedor Bobinas,Embalagem
+Bobina 56 kg,00.000.000/0010-00,Fornecedor Bobinas,Embalagem
+Bobina 120 kg,00.000.000/0010-00,Fornecedor Bobinas,Embalagem
+Bobina  102 kg/94 kg,00.000.000/0010-00,Fornecedor Bobinas,Embalagem
+Rolo tinta termica,00.000.000/0011-00,Fornecedor Tinta Termica,Embalagem
+Acucar,00.000.000/0012-00,Fornecedor Acucar,Materia_Prima
+Blocos Kalunga,61.082.004/0001-50,Kalunga,Papelaria
+Papelaria,61.082.004/0001-50,Kalunga,Papelaria
+Vale Nevado Choc,00.000.000/0013-00,Vale Nevado Chocolates,Materia_Prima
+Comb pedágio vale nevado,00.000.000/0013-00,Vale Nevado Chocolates,Logistica
+Viagem Petropolis,00.000.000/0014-00,Despesa Viagem,Logistica
+Viagem Andradas Mg,00.000.000/0014-00,Despesa Viagem,Logistica
+Viagem Santo Andre,00.000.000/0014-00,Despesa Viagem,Logistica
+Viagem Bh,00.000.000/0014-00,Despesa Viagem,Logistica
+Despesas Viagem,00.000.000/0014-00,Despesa Viagem,Logistica
+Dedinho Doces,00.000.000/0015-00,Dedinho Doces,Materia_Prima
+Imposto Bh St,00.000.000/0016-00,Imposto ST BH,Impostos
+Produtos de Limpeza,00.000.000/0017-00,Fornecedor Limpeza,Operacional
+Potes,00.000.000/0018-00,Fornecedor Potes,Embalagem
+Potes 86 - 115,00.000.000/0018-00,Fornecedor Potes,Embalagem
+Potes Manoel,00.000.000/0018-00,Fornecedor Potes,Embalagem
+Materia Prima Andradas,00.000.000/0003-00,Fornecedor Materia Prima,Materia_Prima
+Materia Prima trufas,00.000.000/0003-00,Fornecedor Materia Prima,Materia_Prima
+Etanol / Diesel/ pedágio,00.000.000/0019-00,Combustivel,Logistica
+Hortobor,00.000.000/0020-00,Hortobor,Materia_Prima
+Horas extras,00.000.000/0021-00,Folha Pagamento,RH
+Folha de Pagamento s/ reg,00.000.000/0021-00,Folha Pagamento,RH
+Folha de Pagamento c/ reg,00.000.000/0021-00,Folha Pagamento,RH
+Ferias,00.000.000/0021-00,Folha Pagamento,RH
+Fgts Iris e Darlene Alex,00.000.000/0021-00,Folha Pagamento,RH
+Acerto rescisao,00.000.000/0021-00,Folha Pagamento,RH
+Vale Alimentacao e transp,00.000.000/0022-00,Vale Alimentacao,RH
+Vale Funcionários,00.000.000/0022-00,Vale Alimentacao,RH
+Diniz,00.000.000/0023-00,Diniz,Materia_Prima
+Toca mascara alcool luva,00.000.000/0024-00,EPI Fornecedor,Operacional
+Marcilei,00.000.000/0025-00,Marcilei,Servicos
+Farinha,00.000.000/0026-00,Fornecedor Farinha,Materia_Prima
+Andradas Farinha,00.000.000/0026-00,Fornecedor Farinha,Materia_Prima
+Sal bicarbonato,00.000.000/0027-00,Fornecedor Ingredientes,Materia_Prima
+Cafe,00.000.000/0028-00,Fornecedor Cafe,Operacional
+Bananinha,00.000.000/0029-00,Fornecedor Bananinha,Materia_Prima
+Bombeiros,00.000.000/0030-00,Corpo de Bombeiros,Fixas
+Iptu Imovel,00.000.000/0031-00,Prefeitura,Impostos
+Evento Prefeitura,00.000.000/0031-00,Prefeitura,Impostos
+Caixa Papelao,00.000.000/0032-00,Fornecedor Embalagens,Embalagem
+Embalagens,00.000.000/0032-00,Fornecedor Embalagens,Embalagem
+Guinco Van,00.000.000/0033-00,Servico Guincho,Manutencao
+Cravo Canela pao de mel,00.000.000/0034-00,Fornecedor Especiarias,Materia_Prima
+Gas P.45,00.000.000/0035-00,Fornecedor Gas,Operacional
+Ganache,00.000.000/0036-00,Fornecedor Ganache,Materia_Prima
+Strech,00.000.000/0037-00,Fornecedor Strech,Embalagem
+Fuso eletrica,00.000.000/0038-00,Fuso Eletrica,Manutencao
+Estacionamento,00.000.000/0039-00,Estacionamento,Logistica
+Amauri,00.000.000/0040-00,Amauri,Servicos
+Diaria Motorista,00.000.000/0041-00,Motorista,Logistica
+Troca Pao de Mel,00.000.000/0042-00,Troca Pao de Mel,Operacional
+Aluguel,00.000.000/0043-00,Aluguel Galpao,Fixas
+Aluguel Casa,00.000.000/0044-00,Aluguel Casa,Fixas
+Conserto Amarok,00.000.000/0045-00,Oficina Mecanica,Manutencao
+Peca Van Ducato,00.000.000/0045-00,Oficina Mecanica,Manutencao
+Concerto Idea,00.000.000/0045-00,Oficina Mecanica,Manutencao
+Concerto fiorino,00.000.000/0045-00,Oficina Mecanica,Manutencao
+Mecanico Van,00.000.000/0045-00,Oficina Mecanica,Manutencao
+Oleo Idea,00.000.000/0045-00,Oficina Mecanica,Manutencao
+Fiorino,00.000.000/0045-00,Oficina Mecanica,Manutencao
+Pneu Van,00.000.000/0046-00,Fornecedor Pneus,Manutencao
+Pneus Idea,00.000.000/0046-00,Fornecedor Pneus,Manutencao
+Parabrisa Van,00.000.000/0046-00,Fornecedor Pneus,Manutencao
+Chocolate Cheque,00.000.000/0047-00,Fornecedor Chocolate,Materia_Prima
+Chocolate Branco Eugenio,00.000.000/0048-00,Eugenio Chocolates,Materia_Prima
+Juraci Chocolate,00.000.000/0049-00,Juraci Chocolate,Materia_Prima
+Chocobony,00.000.000/0050-00,Chocobony,Materia_Prima
+Displays,00.000.000/0051-00,Fornecedor Displays,Embalagem
+Lavagem Van,00.000.000/0052-00,Lavagem Veiculos,Manutencao
+Melaco,00.000.000/0053-00,Fornecedor Melaco,Materia_Prima
+Malto,00.000.000/0054-00,Fornecedor Malto,Materia_Prima
+Desktop Internet,00.000.000/0055-00,Internet,Fixas
+Saborizantes,00.000.000/0056-00,Fornecedor Saborizantes,Materia_Prima
+Frete Bh,00.000.000/0057-00,Frete BH,Logistica
+Cartao Ponto pontual,00.000.000/0058-00,Pontual,Fixas
+Ney Bopp,00.000.000/0059-00,Ney Bopp,Servicos
+Seu Jose Jardineiro,00.000.000/0060-00,Jose Jardineiro,Servicos
+Juros Cheques,60.701.190/0001-04,Banco Itau,Financeiro
+Banco Itau debitos,60.701.190/0001-04,Banco Itau,Financeiro
+Ar Condicionado trufas,00.000.000/0061-00,Manutencao AC,Manutencao
+Padaria,00.000.000/0062-00,Padaria,Operacional
+Balanca e marmiteiro,00.000.000/0063-00,Equipamentos,Equipamento
+Soldas e pecas,00.000.000/0064-00,Soldas e Pecas,Manutencao
+Sabesp,43.776.517/0001-80,Sabesp,Utilities
+Sabesp Casa,43.776.517/0001-80,Sabesp,Utilities
+Sorbato,00.000.000/0065-00,Fornecedor Sorbato,Materia_Prima
+Manutencao,00.000.000/0066-00,Manutencao Geral,Manutencao
+MKT e Vendas,00.000.000/0067-00,Marketing,Marketing
+Cameras Fernando,00.000.000/0068-00,Fernando Cameras,Equipamento
+Pagamento Ana Paula,00.000.000/0069-00,Ana Paula,Servicos
+Cpfl casa,00.734.468/0001-75,CPFL Energia,Utilities
+Comissao Vendas Bh,00.000.000/0070-00,Comissao Vendas,Vendas
+Impostos St  Doces Cart,00.000.000/0071-00,Impostos ST,Impostos
+Registro BR,00.000.000/0073-00,Registro BR,Fixas
+Sites,00.000.000/0074-00,Fornecedor Web,Fixas
+INPI,00.255.074/0001-35,INPI,Fixas
+Google Ads,00.000.000/0075-00,Google LLC,Marketing
+Linkedin,00.000.000/0076-00,LinkedIn Ireland,Marketing
+YouTube,00.000.000/0075-00,Google LLC,Marketing
+Seu Jos[e Jardineiro,00.000.000/0060-00,Jose Jardineiro,Servicos
