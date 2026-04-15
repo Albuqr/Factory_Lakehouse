@@ -1,0 +1,15 @@
+.idea/
+.venv/
+profiles.yml
+*.pyc
+__pycache__/
+target/
+dbt_packages/
+logs/
+gcp-credentials.json
+.env
+data/raw/bronze_maintenance_logs.xlsx
+data/raw/bronze_production_plan.xlsx
+data/raw/Brumelli.xlsx
+data/raw/Inventario.xlsx
+data/raw/~$Brumelli.xlsx
