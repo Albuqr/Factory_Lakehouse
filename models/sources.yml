@@ -2,17 +2,11 @@ version: 2
 
 sources:
   - name: bronze
-    dataset: factory_lakehouse_dev
+    dataset: factory_lakehouse
     tables:
       - name: bronze_transactions
-      - name: bronze_budget_monthly
+      - name: bronze_budget
       - name: bronze_equipment
       - name: bronze_production_plan
       - name: bronze_maintenance_logs
-      - name: bronze_synthetic_sales
-
-  - name: seeds
-    dataset: factory_lakehouse_dev
-    tables:
-      - name: seed_supplier_lookup
-      - name: seed_equipment_types
+      - name: bronze_r_produto
