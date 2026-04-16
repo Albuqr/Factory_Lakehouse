@@ -49,3 +49,12 @@ def ingest_maintenance_logs_fn():
     df["ingestion_date"] = pd.Timestamp.now()
     table_id = "factory-lakehouse.factory_lakehouse.bronze_maintenance_logs"
     client.load_table_from_dataframe(df, table_id, job_config=job_config)
+
+def ingest_r_produto_fn():
+    df = pd.read_excel("./data/raw/Brumelli.xlsx", sheet_name="R. Produto", header=None)
+    df.columns = df.columns.astype(str)
+    cols_to_convert = [c for c in df.columns if c != "ingestion_date"]
+    df[cols_to_convert] = df[cols_to_convert].astype(str)
+    df["ingestion_date"] = pd.Timestamp.now()
+    table_id = "factory-lakehouse.factory_lakehouse.bronze_r_produto"
+    client.load_table_from_dataframe(df, table_id, job_config=job_config)
