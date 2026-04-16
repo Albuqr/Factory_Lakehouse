@@ -10,3 +10,4 @@ sources:
       - name: bronze_production_plan
       - name: bronze_maintenance_logs
       - name: bronze_r_produto
+      - name: bronze_synthetic_sales
