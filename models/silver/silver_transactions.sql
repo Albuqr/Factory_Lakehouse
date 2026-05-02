@@ -16,16 +16,15 @@ SELECT
     bt.dsc,
     sl.tax_id,
     sl.supplier_name,
-    sl.category,
-    bt.`Crédito`,
-    bt.`Débito`,
-    bt.`Saldo`,
+    sl.category AS cost_center,
+    bt.`Crédito` AS credit_brl,
+    bt.`Débito` AS debit_brl,
+    bt.`Saldo` AS balance_brl,
     sl.tax_id IS NULL AS needs_review,
     CASE
         WHEN bt.`Crédito` IS NOT NULL THEN TRUE
         ELSE FALSE
     END AS is_incoming
-
 FROM parsed AS bt
 LEFT JOIN {{ ref('seed_supplier_lookup') }} AS sl
     ON bt.dsc = sl.raw_string
