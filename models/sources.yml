@@ -11,3 +11,5 @@ sources:
       - name: bronze_maintenance_logs
       - name: bronze_r_produto
       - name: bronze_synthetic_sales
+      - name: bronze_synthetic_budget
+      - name: bronze_synthetic_planned_cost
