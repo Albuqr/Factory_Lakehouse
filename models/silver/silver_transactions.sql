@@ -1,11 +1,11 @@
 WITH parsed AS (
     SELECT
-        PARSE_DATE('%d/%m/%Y', transaction_date) AS transaction_date,
-        description,
-        credit_brl,
-        debit_brl,
-        running_balance_brl,
-        source_month
+        ingestion_date,
+        DATE_ADD(DATE '1899-12-30', INTERVAL CAST(`Data` AS INT64) DAY) AS transaction_date,
+        CAST(`Descrição` AS STRING) AS dsc,
+        `Crédito`,
+        `Débito`,
+        `Saldo`
     FROM {{ source('bronze', 'bronze_transactions') }}
 )
 
@@ -13,20 +13,19 @@ SELECT
     bt.transaction_date,
     EXTRACT(YEAR FROM bt.transaction_date) AS year,
     FORMAT_DATE('%Y%m', bt.transaction_date) AS month_key,
-    bt.description,
+    bt.dsc,
     sl.tax_id,
     sl.supplier_name,
     sl.category,
-    bt.credit_brl,
-    bt.debit_brl,
-    bt.running_balance_brl,
-    bt.source_month,
+    bt.`Crédito`,
+    bt.`Débito`,
+    bt.`Saldo`,
     sl.tax_id IS NULL AS needs_review,
     CASE
-        WHEN bt.credit_brl IS NOT NULL THEN TRUE
+        WHEN bt.`Crédito` IS NOT NULL THEN TRUE
         ELSE FALSE
     END AS is_incoming
 
 FROM parsed AS bt
 LEFT JOIN {{ ref('seed_supplier_lookup') }} AS sl
-    ON bt.description = sl.raw_string
+    ON bt.dsc = sl.raw_string

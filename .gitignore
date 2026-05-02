@@ -8,8 +8,5 @@ dbt_packages/
 logs/
 gcp-credentials.json
 .env
-data/raw/bronze_maintenance_logs.xlsx
-data/raw/bronze_production_plan.xlsx
-data/raw/source_workbook.xlsx
-data/raw/Inventario.xlsx
-data/raw/~$source_workbook.xlsx
+data/
+.claude/
