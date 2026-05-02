@@ -17,7 +17,7 @@ next_due AS (
         service_interval_days,
         CASE
             WHEN maintenance_date IS NULL THEN CURRENT_DATE
-            ELSE DATE_ADD(maintenance_date, INTERVAL service_interval_days DAY)
+            ELSE CAST(DATE_ADD(maintenance_date, INTERVAL service_interval_days DAY) AS DATE)
         END AS next_due_date
     FROM latest_maintenance
     WHERE lm = 1
@@ -38,7 +38,6 @@ with_days AS (
 
 SELECT
     wd.item_id,
-    se.equipment_name,
     se.machine_type,
     se.production_line,
     wd.maintenance_date,

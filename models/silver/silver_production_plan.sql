@@ -8,12 +8,12 @@ WITH monthly_units AS (
 )
 
 SELECT
-    pc.month_key,
+    CAST(pc.month_key AS STRING) AS month_key,
     pc.product_line,
-    LOWER(pc.product_line) as sku_name,
+    LOWER(pc.product_line) AS sku_name,
     mu.units AS planned_units,
     pc.planned_cost_brl
 FROM {{ source('bronze', 'bronze_synthetic_planned_cost') }} AS pc
 LEFT JOIN monthly_units AS mu
   ON pc.product_line = mu.sku
-  AND pc.month_key = mu.month_key
+  AND CAST(pc.month_key AS STRING) = mu.month_key
