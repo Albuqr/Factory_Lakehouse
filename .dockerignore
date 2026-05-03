@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.env
+gcp-credentials.json
+data/
+target/
+dbt_packages/
+logs/
+.git/
+.idea/
+node_modules/
+airflow/
+ingestion/
+models/
+seeds/

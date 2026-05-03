@@ -1,0 +1,15 @@
+services:
+  dashboard:
+    build:
+      context: ./dashboard
+      dockerfile: Dockerfile
+    ports:
+      - "8765:8765"
+    volumes:
+      - ./gcp-credentials.json:/app/credentials/gcp-credentials.json:ro
+    environment:
+      # Local testing: credentials via mounted file (see volumes above)
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/credentials/gcp-credentials.json
+      # Production (VPS): pass JSON content directly — no file mount needed
+      # - GCP_CREDENTIALS_JSON=${GCP_CREDENTIALS_JSON}
+    restart: unless-stopped
