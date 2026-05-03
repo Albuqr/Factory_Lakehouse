@@ -17,7 +17,6 @@ try:
     if df.empty:
         st.warning("No equipment status data available")
     else:
-        # Filters
         col1, col2 = st.columns(2)
 
         with col1:
@@ -28,14 +27,12 @@ try:
             prod_lines = ['All'] + sorted(df['production_line'].unique().tolist())
             selected_line = st.selectbox("Production Line", prod_lines)
 
-        # Filter data
         filtered_df = df.copy()
         if selected_type != 'All':
             filtered_df = filtered_df[filtered_df['machine_type'] == selected_type]
         if selected_line != 'All':
             filtered_df = filtered_df[filtered_df['production_line'] == selected_line]
 
-        # Status counts
         st.markdown("### Maintenance Overview")
         col1, col2, col3, col4 = st.columns(4)
 
@@ -57,7 +54,6 @@ try:
 
         st.markdown("---")
 
-        # Status distribution chart
         st.markdown("### Status Distribution")
         status_counts = filtered_df['maintenance_status'].value_counts().reset_index()
         status_counts.columns = ['Status', 'Count']
@@ -80,11 +76,8 @@ try:
 
         st.markdown("---")
 
-        # Equipment table with color coding
         st.markdown("### Equipment Details")
 
-
-        # Add color coding
         def color_status(val):
             if val == 'OVERDUE':
                 return 'background-color: #fee2e2; color: #991b1b'
@@ -102,7 +95,6 @@ try:
 
         st.dataframe(styled_df, use_container_width=True)
 
-        # Priority alerts
         if overdue > 0:
             st.error(f"⚠️ **URGENT:** {overdue} equipment item(s) overdue for maintenance")
             overdue_items = filtered_df[filtered_df['maintenance_status'] == 'OVERDUE'][

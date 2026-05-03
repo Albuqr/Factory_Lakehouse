@@ -13,12 +13,10 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Sidebar
 st.sidebar.title("🏭 Factory Lakehouse")
 st.sidebar.markdown("---")
 st.sidebar.info("Navigate using the pages above to explore different views of the data platform.")
 
-# Main content
 st.title("🏭 Factory Lakehouse - Data Platform")
 st.markdown("---")
 
@@ -32,13 +30,11 @@ A production-grade data lakehouse built for a Brazilian confectionery manufactur
 
 st.markdown("---")
 
-# Architecture Overview with Radar Chart
 st.markdown("### 📊 Platform Coverage")
 
-# Business-focused metrics for radar chart
 categories = ['Raw Data<br>Collected', 'Data Cleaned<br>& Organized', 'Business<br>Insights',
               'Data<br>Reliability', 'System<br>Health']
-values = [100, 100, 82, 73, 100]  # Updated: 82% insights (9/11 capabilities), 73% reliability (3 features blocked)
+values = [100, 100, 82, 73, 100]
 
 fig = go.Figure()
 
@@ -69,7 +65,6 @@ st.plotly_chart(fig, use_container_width=True)
 
 st.markdown("---")
 
-# Tabs for layer details
 tab0, tab1, tab2, tab3, tab4, tab5 = st.tabs(
     ["💡 How It Works", "🔶 Raw Data", "🔷 Clean Data", "🟡 Business Insights", "⚙️ Quality Control", "📊 Coverage Details"])
 
@@ -228,7 +223,6 @@ with tab5:
 
 st.markdown("---")
 
-# Live Platform Stats
 st.markdown("### 📈 Platform Status")
 
 col1, col2, col3, col4 = st.columns(4)

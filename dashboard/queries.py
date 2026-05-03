@@ -2,9 +2,8 @@ from config import client, PROJECT_ID, DATASET_ID
 import pandas as pd
 import streamlit as st
 
-@st.cache_data(ttl=300)  # Cache for 5 minutes
+@st.cache_data(ttl=300)
 def get_budget_variance():
-    """Get budget vs actual variance data"""
     query = f"""
     SELECT 
         month_key,
@@ -19,9 +18,8 @@ def get_budget_variance():
     """
     return client.query(query).to_dataframe()
 
-@st.cache_data(ttl=300)  # Cache for 5 minutes
+@st.cache_data(ttl=300)
 def get_sku_economics():
-    """Get SKU cost and revenue data"""
     query = f"""
     SELECT 
         month_key,
@@ -40,9 +38,8 @@ def get_sku_economics():
     """
     return client.query(query).to_dataframe()
 
-@st.cache_data(ttl=300)  # Cache for 5 minutes
+@st.cache_data(ttl=300)
 def get_equipment_status():
-    """Get equipment maintenance status"""
     query = f"""
     SELECT 
         item_id,

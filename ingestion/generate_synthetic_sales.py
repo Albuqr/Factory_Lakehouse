@@ -18,8 +18,6 @@ records = []
 
 for sku in skus:
         for year, month in months:
-            # generate record here
-
             if sku == "TRUFA":
                 units = random.randint(int(3000 * 0.85), int(3000 * 1.15))
                 revenue = random.randint(int(280000 * 0.85), int(280000 * 1.15))
