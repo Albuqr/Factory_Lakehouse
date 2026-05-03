@@ -15,6 +15,7 @@ WITH cost_per_unit AS (
 
 unit_price AS (
     SELECT
+        CAST(month_key AS STRING) AS month_key,
         sku_name,
         units_sold,
         revenue_brl,
@@ -48,4 +49,6 @@ SELECT
         END, 2
     ) AS gross_margin_pct
 FROM cost_per_unit AS cpu
-LEFT JOIN unit_price AS up ON cpu.sku_name = up.sku_name
+LEFT JOIN unit_price AS up
+    ON cpu.sku_name = up.sku_name
+    AND cpu.month_key = up.month_key
