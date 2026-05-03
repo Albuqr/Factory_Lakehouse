@@ -1,15 +1,18 @@
+import os
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 from airflow.operators.bash import BashOperator
 from datetime import datetime, timedelta
 from ingestion.ingest import ingest_transactions_fn, ingest_budget_fn, ingest_production_plan_fn, ingest_maintenance_logs_fn, ingest_equipment_fn
 
+_alert_email = os.environ.get("AIRFLOW_ALERT_EMAIL", "")
+
 default_args = {
-    'owner': 'Joao',
+    'owner': 'factory_pipeline',
     'retries': 2,
     'retry_delay': timedelta(minutes=5),
-    'email_on_failure': True,
-    'email': ['jpcaastroo@gmail.com']
+    'email_on_failure': bool(_alert_email),
+    'email': [_alert_email] if _alert_email else []
 }
 
 with DAG(

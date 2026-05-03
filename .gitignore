@@ -8,5 +8,11 @@ dbt_packages/
 logs/
 gcp-credentials.json
 .env
+.env.*
+!.env.example
 data/
 .claude/
+*.pem
+*.key
+*.p12
+*.pfx
