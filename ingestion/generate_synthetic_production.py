@@ -40,8 +40,6 @@ for machine in production_machines:
     for sku in machine["skus"]:
         current_date = start_date
         while current_date <= end_date:
-            # generate record here
-
             if sku == "TRUFA":
                 units = random.randrange(100, 401)
             else:

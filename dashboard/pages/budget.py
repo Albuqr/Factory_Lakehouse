@@ -28,7 +28,6 @@ try:
         **Current Status:** 2 of 3 dashboard pages are fully functional (SKU Economics and Equipment Status).
         """)
     else:
-        # If data exists, show it
         col1, col2, col3 = st.columns(3)
 
         with col1:

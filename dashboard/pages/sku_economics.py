@@ -17,7 +17,6 @@ try:
     if df.empty:
         st.warning("No SKU economics data available")
     else:
-        # Filters
         col1, col2 = st.columns(2)
 
         with col1:
@@ -28,14 +27,12 @@ try:
             months = ['All'] + sorted(df['month_key'].unique().tolist(), reverse=True)
             selected_month = st.selectbox("Month", months)
 
-        # Filter data
         filtered_df = df.copy()
         if selected_product != 'All':
             filtered_df = filtered_df[filtered_df['product_line'] == selected_product]
         if selected_month != 'All':
             filtered_df = filtered_df[filtered_df['month_key'] == selected_month]
 
-        # Metrics
         st.markdown("### Key Metrics")
         col1, col2, col3, col4 = st.columns(4)
 
@@ -52,12 +49,14 @@ try:
             st.metric("Avg Cost Per Unit", f"R$ {avg_cost_per_unit:.2f}")
 
         with col4:
-            months_count = filtered_df['month_key'].nunique()
-            st.metric("Months in View", f"{months_count}")
+            avg_margin = filtered_df['gross_margin_pct'].mean()
+            if pd.notna(avg_margin):
+                st.metric("Avg Gross Margin", f"{avg_margin:.1f}%")
+            else:
+                st.metric("Avg Gross Margin", "N/A")
 
         st.markdown("---")
 
-        # Chart - Cost per Unit over Time
         st.markdown("### Cost Per Unit Trend")
 
         chart_data = filtered_df.groupby(['month_key', 'product_line'])[
@@ -79,17 +78,15 @@ try:
 
         st.markdown("---")
 
-        # Data table
         st.markdown("### Detailed Data")
         st.dataframe(
-            filtered_df[
-                ['month_key', 'product_line', 'planned_units', 'planned_cost_brl', 'cost_per_planned_unit_brl']],
+            filtered_df[['month_key', 'product_line', 'planned_units', 'planned_cost_brl',
+                        'cost_per_planned_unit_brl', 'units_sold', 'revenue_brl',
+                        'gross_margin_brl', 'gross_margin_pct']],
             use_container_width=True
         )
 
-        # Note about null sales data
-        st.info(
-            "ℹ️ **Note:** Sales data (units_sold, revenue_brl) is currently null because bronze_synthetic_sales uses monthly aggregates while production planning is daily. This is a known limitation of the synthetic data generation.")
+        st.success("✅ **Sales data populated:** Revenue and margin calculations based on monthly sales joined with production costs.")
 
 except Exception as e:
     st.error(f"Error loading SKU economics data: {str(e)}")
