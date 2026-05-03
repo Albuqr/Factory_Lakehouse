@@ -6,7 +6,14 @@ import re
 from unidecode import unidecode
 
 load_dotenv()
-client = bigquery.Client.from_service_account_json(os.environ.get("GOOGLE_APPLICATION_CREDENTIALS"))
+
+_creds_path = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS")
+if not _creds_path:
+    raise EnvironmentError(
+        "GOOGLE_APPLICATION_CREDENTIALS is not set. "
+        "Copy .env.example to .env and point it at your service account JSON file."
+    )
+client = bigquery.Client.from_service_account_json(_creds_path)
 
 job_config = bigquery.LoadJobConfig(
     write_disposition="WRITE_TRUNCATE",
