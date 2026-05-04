@@ -4,12 +4,48 @@ import plotly.express as px
 import sys
 import os
 
-# Add parent directory to path to import queries
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from queries import get_sku_economics
+from sidebar import render_sidebar
+
+st.set_page_config(
+    page_title="SKU Economics | Factory Lakehouse",
+    page_icon="🏭",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+render_sidebar(
+    "Cost & margin analysis dashboard. Track production costs, sales revenue, and gross margins "
+    "by product line over time.\n\n"
+    "**Features:** Monthly trends, unit economics, profitability tracking"
+)
 
 st.title("📊 SKU Economics")
 st.markdown("---")
+
+
+def fmt_brl(value):
+    abs_val = abs(value)
+    if abs_val >= 1_000_000:
+        s = f"{value / 1_000_000:.2f}".rstrip('0').rstrip('.')
+        return f"R$ {s}M"
+    if abs_val >= 1_000:
+        s = f"{value / 1_000:.1f}".rstrip('0').rstrip('.')
+        return f"R$ {s}K"
+    return f"R$ {value:.2f}"
+
+
+def fmt_units(value):
+    abs_val = abs(value)
+    if abs_val >= 1_000_000:
+        s = f"{value / 1_000_000:.1f}".rstrip('0').rstrip('.')
+        return f"{s}M"
+    if abs_val >= 1_000:
+        s = f"{value / 1_000:.1f}".rstrip('0').rstrip('.')
+        return f"{s}K"
+    return f"{value:,.0f}"
+
 
 try:
     df = get_sku_economics()
@@ -38,11 +74,11 @@ try:
 
         with col1:
             total_units = filtered_df['planned_units'].sum()
-            st.metric("Total Planned Units", f"{total_units:,.0f}")
+            st.metric("Total Planned Units", fmt_units(total_units))
 
         with col2:
             total_cost = filtered_df['planned_cost_brl'].sum()
-            st.metric("Total Planned Cost", f"R$ {total_cost:,.2f}")
+            st.metric("Total Planned Cost", fmt_brl(total_cost))
 
         with col3:
             avg_cost_per_unit = filtered_df['cost_per_planned_unit_brl'].mean()

@@ -4,9 +4,22 @@ import plotly.express as px
 import sys
 import os
 
-# Add parent directory to path to import queries
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from queries import get_equipment_status
+from sidebar import render_sidebar
+
+st.set_page_config(
+    page_title="Equipment | Factory Lakehouse",
+    page_icon="🏭",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+render_sidebar(
+    "Maintenance tracking system. Monitor service schedules, identify overdue equipment, "
+    "and prevent unexpected breakdowns.\n\n"
+    "**Features:** Status alerts, service calendar, risk assessment"
+)
 
 st.title("🔧 Equipment Maintenance Status")
 st.markdown("---")
@@ -85,7 +98,6 @@ try:
                 return 'background-color: #fef3c7; color: #92400e'
             else:
                 return 'background-color: #dcfce7; color: #166534'
-
 
         styled_df = filtered_df[['item_id', 'machine_type', 'production_line', 'next_due_date', 'days_until_due',
                                  'maintenance_status']].style.applymap(
