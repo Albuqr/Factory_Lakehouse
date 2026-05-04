@@ -286,7 +286,7 @@ The `gold_budget_vs_actual` model and the Budget Variance dashboard page are par
 
 Without a cost center assignment, those transactions cannot be bucketed into the eight budget categories (Producao, Materia_Prima, RH, etc.), so the actual vs budget comparison is incomplete for affected months.
 
-**Resolution path**: enrich `seed_supplier_lookup.csv` with additional raw string patterns from the source Excel, or apply a fallback category to unmatched transactions.
+**Resolution path**: enrich `seed_supplier_lookup.csv` with additional raw string patterns from the source Excel, or apply a fallback category to unmatched transactions. Waiting of future, better data.
 
 ### Synthetic Data Dependency
 
