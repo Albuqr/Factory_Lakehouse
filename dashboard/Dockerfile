@@ -5,8 +5,9 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY Home.py config.py queries.py ./
+COPY Home.py config.py queries.py sidebar.py ./
 COPY pages/ pages/
+COPY .streamlit/ .streamlit/
 
 EXPOSE 8765
 

@@ -5,6 +5,7 @@ import plotly.graph_objects as go
 
 sys.path.append(os.path.dirname(__file__))
 from queries import get_budget_variance, get_sku_economics, get_equipment_status
+from sidebar import render_sidebar
 
 st.set_page_config(
     page_title="Factory Lakehouse Dashboard",
@@ -13,9 +14,11 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-st.sidebar.title("🏭 Factory Lakehouse")
-st.sidebar.markdown("---")
-st.sidebar.info("Navigate using the pages above to explore different views of the data platform.")
+render_sidebar(
+    "End-to-end data platform built for a Brazilian confectionery manufacturer. "
+    "Transforms raw factory data into real-time operational insights using medallion architecture.\n\n"
+    "**Stack:** BigQuery · dbt · Streamlit · Python"
+)
 
 st.title("🏭 Factory Lakehouse - Data Platform")
 st.markdown("---")
@@ -43,8 +46,8 @@ fig.add_trace(go.Scatterpolar(
     theta=categories,
     fill='toself',
     name='Platform Coverage',
-    line_color='#22c55e',
-    fillcolor='rgba(34, 197, 94, 0.3)'
+    line_color='#9333EA',
+    fillcolor='rgba(147, 51, 234, 0.3)'
 ))
 
 fig.update_layout(

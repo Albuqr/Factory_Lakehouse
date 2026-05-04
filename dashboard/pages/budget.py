@@ -3,12 +3,36 @@ import pandas as pd
 import sys
 import os
 
-# Add parent directory to path to import queries
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from queries import get_budget_variance
+from sidebar import render_sidebar
+
+st.set_page_config(
+    page_title="Budget | Factory Lakehouse",
+    page_icon="🏭",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+render_sidebar(
+    "Budget variance analysis. Compare actual spending vs planned budget by cost center.\n\n"
+    "**Status:** Pending source data quality improvements"
+)
 
 st.title("💰 Budget Variance Analysis")
 st.markdown("---")
+
+
+def fmt_brl(value):
+    abs_val = abs(value)
+    if abs_val >= 1_000_000:
+        s = f"{value / 1_000_000:.2f}".rstrip('0').rstrip('.')
+        return f"R$ {s}M"
+    if abs_val >= 1_000:
+        s = f"{value / 1_000:.1f}".rstrip('0').rstrip('.')
+        return f"R$ {s}K"
+    return f"R$ {value:.2f}"
+
 
 try:
     df = get_budget_variance()
@@ -31,12 +55,12 @@ try:
         col1, col2, col3 = st.columns(3)
 
         with col1:
-            st.metric("Total Budget", f"R$ {df['budget_amount_brl'].sum():,.2f}")
+            st.metric("Total Budget", fmt_brl(df['budget_amount_brl'].sum()))
         with col2:
-            st.metric("Total Actual", f"R$ {df['actual_amount_brl'].sum():,.2f}")
+            st.metric("Total Actual", fmt_brl(df['actual_amount_brl'].sum()))
         with col3:
             total_variance = df['variance_brl'].sum()
-            st.metric("Total Variance", f"R$ {total_variance:,.2f}")
+            st.metric("Total Variance", fmt_brl(total_variance))
 
         st.markdown("---")
         st.dataframe(df, use_container_width=True)
