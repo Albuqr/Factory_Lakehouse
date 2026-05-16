@@ -1,9 +1,4 @@
-import sys
-import os
-
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-
-from dashboard.config import client, PROJECT_ID, DATASET_ID
+from config import client, PROJECT_ID, DATASET_ID
 
 from fastapi import FastAPI
 
