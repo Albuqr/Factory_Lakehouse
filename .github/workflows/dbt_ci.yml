@@ -1,0 +1,29 @@
+name: dbt CI
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  dbt-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install dbt-bigquery
+
+      - name: Set up GCP credentials
+        run: |
+          echo '${{ secrets.GCP_CREDENTIALS }}' > gcp-credentials.json
+
+      - name: Run dbt tests
+        run: dbt test
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: gcp-credentials.json
