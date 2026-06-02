@@ -28,6 +28,11 @@ jobs:
           mkdir -p ~/.dbt
           echo '${{ secrets.DBT_PROFILES }}' > ~/.dbt/profiles.yml
 
+      - name: Install dbt packages
+        run: dbt deps
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: gcp-credentials.json
+
       - name: Run dbt tests
         run: dbt test
         env:
