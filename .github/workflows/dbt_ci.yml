@@ -23,6 +23,11 @@ jobs:
         run: |
           echo '${{ secrets.GCP_CREDENTIALS }}' > gcp-credentials.json
 
+      - name: Set up dbt profiles
+        run: |
+          mkdir -p ~/.dbt
+          echo '${{ secrets.DBT_PROFILES }}' > ~/.dbt/profiles.yml
+
       - name: Run dbt tests
         run: dbt test
         env:
