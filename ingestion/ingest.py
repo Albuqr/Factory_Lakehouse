@@ -81,5 +81,6 @@ def ingest_synthetic_budget_fn():
 
 def ingest_synthetic_planned_cost_fn():
     df = pd.read_excel("./data/raw/bronze_synthetic_planned_cost.xlsx")
+    df["ingestion_date"] = pd.Timestamp.now()
     table_id = "factory-lakehouse.factory_lakehouse.bronze_synthetic_planned_cost"
     client.load_table_from_dataframe(df, table_id, job_config=job_config)
