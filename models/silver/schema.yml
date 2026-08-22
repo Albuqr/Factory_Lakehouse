@@ -4,10 +4,11 @@ models:
   - name: silver_transactions
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - transaction_date
-            - description
-            - debit_brl
+          arguments:
+            combination_of_columns:
+              - transaction_date
+              - description
+              - debit_brl
     columns:
       - name: transaction_date
         tests:
@@ -19,7 +20,8 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['Producao', 'RH', 'Marketing', 'Fixas', 'Receita', 'Outro']
+              arguments:
+                values: ['Producao', 'RH', 'Marketing', 'Fixas', 'Receita', 'Outro']
       - name: is_incoming
         tests:
           - not_null
@@ -27,10 +29,11 @@ models:
   - name: silver_budget
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - month_key
-            - cost_center
-            - line_item
+          arguments:
+            combination_of_columns:
+              - month_key
+              - cost_center
+              - line_item
     columns:
       - name: budget_year
         tests:
@@ -45,7 +48,8 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['Producao', 'RH', 'Marketing', 'Fixas', 'Receita', 'Outro']
+              arguments:
+                values: ['Producao', 'RH', 'Marketing', 'Fixas', 'Receita', 'Outro']
       - name: line_item
         tests:
           - not_null
@@ -69,7 +73,8 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ['trufa', 'pao_de_mel', 'both']
+              arguments:
+                values: ['trufa', 'pao_de_mel', 'both']
       - name: brand
       - name: model
       - name: country_of_origin
