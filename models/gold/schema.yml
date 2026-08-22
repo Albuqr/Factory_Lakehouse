@@ -2,9 +2,10 @@ models:
   - name: gold_budget_vs_actual
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - month_key
-            - cost_center
+          arguments:
+            combination_of_columns:
+              - month_key
+              - cost_center
     columns:
       - name: budget_amount_brl
         tests:
@@ -28,13 +29,15 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: [ 'green', 'yellow', 'red', 'grey']
+              arguments:
+                values: [ 'green', 'yellow', 'red', 'grey']
   - name: gold_cost_per_unit
     tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - month_key
-            - sku_name
+          arguments:
+            combination_of_columns:
+              - month_key
+              - sku_name
     columns:
       - name: sku_name
         tests:
@@ -66,7 +69,8 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: [ 'trufa', 'pao_de_mel' ]
+              arguments:
+                values: [ 'trufa', 'pao_de_mel' ]
 
   - name: gold_equipment_status
     columns:
@@ -94,9 +98,29 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: [ 'trufa', 'pao_de_mel', 'both' ]
+              arguments:
+                values: [ 'trufa', 'pao_de_mel', 'both' ]
       - name: maintenance_status
         tests:
           - not_null
           - accepted_values:
-              values: [ 'OVERDUE', 'DUE_SOON', 'OK' ]
+              arguments:
+                values: [ 'OVERDUE', 'DUE_SOON', 'OK' ]
+
+  - name: gold_bi_sku_economics
+    tests:
+    - dbt_utils.unique_combination_of_columns:
+        arguments:
+          combination_of_columns:
+            - month_key
+            - sku_name
+    columns:
+      - name: month_key
+        tests:
+          - not_null
+      - name: product_line
+        tests:
+          - not_null
+      - name: sku_name
+        tests:
+          - not_null
