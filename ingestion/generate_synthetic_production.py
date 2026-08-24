@@ -34,7 +34,7 @@ production_machines = [
 records = []
 
 start_date = date(2025, 1, 1)
-end_date = date(2026, 4, 14)
+end_date = date(2026, 4, 30)
 
 for machine in production_machines:
     for sku in machine["skus"]:
