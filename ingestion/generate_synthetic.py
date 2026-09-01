@@ -1,6 +1,5 @@
 from datetime import date, timedelta
 import random
-import calendar
 import pandas as pd
 
 
@@ -35,22 +34,20 @@ machines = [
     {"machine_id": 28, "machine_name": "Forno Industrial a Gás", "location": "Cozinha"},
 ]
 
+seed = pd.read_csv("seeds/seed_equipment_types.csv")
+interval_lookup = seed.set_index('item_id')['service_interval_days'].to_dict()
 records = []
 
 for machine in machines:
 
-    months = []
-    for year in [2025, 2026]:
-        for month in range(1, 13):
-            if year == 2026 and month > 4:
-                break
-            months.append((year, month))
-
-    for year, month in months:
-        last_day = calendar.monthrange(year, month)[1]
-        start = date(year, month, 1)
-        end = date(year, month, last_day)
-        random_date = start + timedelta(days=random.randint(0, (end - start).days))
+        interval = interval_lookup[machine["machine_id"]]
+        if interval == 30:
+            offset = random.randint(10, 50)
+        elif interval == 90:
+            offset = random.randint(20, 160)
+        else:
+            offset = 0
+        maintenance_date = date.today() - timedelta(days=offset)
 
         maintenance_type = random.choices(
             ["Preventiva", "Corretiva"],
@@ -67,7 +64,7 @@ for machine in machines:
         "location": machine["location"],
         'maintenance_type': maintenance_type,
         "technician": technician,
-        "maintenance_date": random_date
+        "maintenance_date": maintenance_date
         })
 
 df = pd.DataFrame(records)
