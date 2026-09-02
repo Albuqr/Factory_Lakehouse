@@ -37,6 +37,7 @@ This project closes those gaps by ingesting real financial data, enriching it wi
 | Transformation | dbt (Data Build Tool) | SQL-based models with testing and lineage |
 | Orchestration | Apache Airflow | Daily pipeline scheduling and retry logic |
 | Dashboard | Streamlit | Interactive analytics UI with Plotly charts |
+| API | FastAPI | Standalone REST layer exposing gold tables for external consumers |
 | Data Generation | Python | Synthetic data to fill gaps in real source data |
 | Auth | GCP Service Account | BigQuery authentication via JSON credentials |
 
@@ -62,7 +63,7 @@ Excel / CSV / Python generators
            ▼
     ┌─────────────┐
     │    GOLD     │  Analytics-ready tables — aggregated, business-logic
-    │  (3 tables) │  applied, KPIs calculated, status flags assigned
+    │  (4 tables) │  applied, KPIs calculated, status flags assigned
     └──────┬──────┘
            │
            ▼
@@ -75,8 +76,8 @@ Nine tables loaded as-is from source files. No transformations applied; data fid
 
 | Table | Source |
 |---|---|
-| `bronze_transactions` | DFC sheet from Brumelli.xlsx (cash flow) |
-| `bronze_budget` | DRE sheet from Brumelli.xlsx (budget by cost center) |
+| `bronze_transactions` | DFC sheet from the client's source workbook (cash flow) |
+| `bronze_budget` | DRE sheet from the client's source workbook (budget by cost center) |
 | `bronze_equipment` | Inventario.xlsx (machine inventory) |
 | `bronze_production_plan` | Synthetic daily production records |
 | `bronze_maintenance_logs` | Synthetic maintenance history |
@@ -99,13 +100,22 @@ Five dbt views that clean, cast, and enrich bronze data. Materialized as views s
 
 ### Gold Layer — Analytics Tables
 
-Three dbt tables materialized with business logic and KPIs applied. These are the tables the dashboard queries directly.
+Four dbt tables materialized with business logic and KPIs applied. These are the tables the dashboard — and downstream BI tools — query directly.
 
 | Model | What it does |
 |---|---|
 | `gold_budget_vs_actual` | Actual spend vs budget per cost center per month; variance in BRL and %; status flags (green/yellow/red/grey) |
 | `gold_cost_per_unit` | Cost per unit, revenue per unit, and gross margin for Pão de Mel and Trufa over 16 months |
 | `gold_equipment_status` | Latest maintenance date per machine, next due date, and status: OVERDUE / DUE_SOON / OK |
+| `gold_bi_sku_economics` | BI-facing subset of `gold_cost_per_unit`: exposes only additive measures (planned units, planned cost, units sold, revenue, gross margin) and drops pre-computed ratios. BI tools aggregate columns by default, and averaging a ratio across rows weights each row equally regardless of volume, producing a wrong figure — ratios should be computed at query time from summed numerator and denominator |
+
+---
+
+## Data Quality & Testing
+
+**Ingestion**: `ingestion/ingest.py` waits for each BigQuery load job to complete, then re-queries the destination table's row count and compares it against the source dataframe length, raising if they don't match. Awaiting the job isn't sufficient on its own — a load with a missing partition field can complete with `output_rows` set but write nothing, after `WRITE_TRUNCATE` has already emptied the table.
+
+**dbt tests**: `tests/gold_bi_sku_economics_not_empty.sql` is a singular test asserting the model returns at least one row. dbt's built-in generic tests (`not_null`, `accepted_values`, `unique_combination_of_columns`) all pass trivially against an empty table — they work by returning violating rows, and an empty table has none.
 
 ---
 
@@ -124,11 +134,16 @@ Factory_Lakehouse/
 │       └── sku_economics.py         # SKU cost & margin page
 ├── ingestion/
 │   ├── ingest.py                    # Main ingestion script (9 bronze tables)
+│   ├── generate_synthetic.py        # Synthetic maintenance logs
 │   ├── generate_synthetic_budget.py
-│   ├── generate_synthetic_maintenance.py
 │   ├── generate_synthetic_planned_cost.py
 │   ├── generate_synthetic_production.py
 │   └── generate_synthetic_sales.py
+├── middleware/
+│   ├── main.py                      # FastAPI app (sku_economics, equipment_status, budget-variance)
+│   ├── config.py                    # BigQuery client setup
+│   ├── requirements.txt
+│   └── Dockerfile
 ├── models/
 │   ├── sources.yml                  # Bronze source declarations
 │   ├── silver/
@@ -142,13 +157,17 @@ Factory_Lakehouse/
 │       ├── schema.yml               # Gold layer tests
 │       ├── gold_budget_vs_actual.sql
 │       ├── gold_cost_per_unit.sql
-│       └── gold_equipment_status.sql
+│       ├── gold_equipment_status.sql
+│       └── gold_bi_sku_economics.sql
+├── tests/
+│   └── gold_bi_sku_economics_not_empty.sql   # Singular test: fails if the BI table builds empty
 ├── seeds/
 │   ├── seed_equipment_types.csv     # 28 machines with type, line, service interval
 │   └── seed_supplier_lookup.csv     # 118 transaction description → supplier mappings
 ├── airflow/
 │   └── factory_pipeline.py          # Daily DAG: ingest → silver → gold
 ├── dbt_project.yml
+├── requirements.txt                 # Combined deps: dbt, ingestion, dashboard, middleware
 └── .env
 ```
 
@@ -179,6 +198,20 @@ Monthly actual spend vs planned budget by cost center. Shows variance in BRL and
 
 ---
 
+## Middleware API
+
+A standalone FastAPI service (`middleware/`) exposes the gold layer over REST, independent of the Streamlit dashboard (which queries BigQuery directly via `dashboard/config.py`). Intended for external consumers that need the same data without a BigQuery client.
+
+| Endpoint | Source table |
+|---|---|
+| `GET /api/sku_economics` | `gold_cost_per_unit`, latest `month_key` |
+| `GET /api/equipment_status` | `gold_equipment_status` |
+| `GET /api/budget-variance` | `silver_budget` (variance/status fields are stubbed `None` — not wired to `gold_budget_vs_actual` yet) |
+
+Run locally: `cd middleware && uvicorn main:app --reload --port 8003` (with `middleware/requirements.txt` installed). A `middleware/Dockerfile` exists but isn't wired into `docker-compose.yml` yet — only the dashboard service is.
+
+---
+
 ## How to Run Locally
 
 ### Prerequisites
@@ -205,10 +238,11 @@ source .venv/bin/activate
 .venv\Scripts\activate
 ```
 
-**3. Install dashboard dependencies**
+**3. Install dependencies**
 ```bash
-pip install -r dashboard/requirements.txt
+pip install -r requirements.txt
 ```
+(covers dbt, ingestion, dashboard, and middleware; `dashboard/requirements.txt` and `middleware/requirements.txt` are narrower subsets for building each service's own Docker image)
 
 **4. Configure credentials**
 
@@ -239,7 +273,7 @@ factory_lakehouse:
 **Generate synthetic data** (if bronze tables are empty):
 ```bash
 python ingestion/generate_synthetic_production.py
-python ingestion/generate_synthetic_maintenance.py
+python ingestion/generate_synthetic.py
 python ingestion/generate_synthetic_budget.py
 python ingestion/generate_synthetic_sales.py
 python ingestion/generate_synthetic_planned_cost.py
@@ -286,6 +320,8 @@ The `gold_budget_vs_actual` model and the Budget Variance dashboard page are par
 
 Without a cost center assignment, those transactions cannot be bucketed into the eight budget categories (Producao, Materia_Prima, RH, etc.), so the actual vs budget comparison is incomplete for affected months.
 
+There's a second, independent gap: `seed_supplier_lookup.csv` now categorizes matched transactions into 15 real-world categories (Embalagem, Equipamento, Financeiro, Vendas, etc.), while the synthetic budget generator still only plans against the original 8 (Producao, Materia_Prima, RH, Fixas, Marketing, Impostos, Logistica, Manutencao) — and "Producao" isn't a supplier-lookup category at all. Even a transaction that matches a supplier can land in a cost center with no budget row to join against.
+
 **Resolution path**: enrich `seed_supplier_lookup.csv` with additional raw string patterns from the source Excel, or apply a fallback category to unmatched transactions. Waiting of future, better data.
 
 ### Synthetic Data Dependency
@@ -303,11 +339,11 @@ All bronze ingestion uses `WRITE_TRUNCATE` — every pipeline run reloads the fu
 | Dimension | Detail |
 |---|---|
 | Time range | January 2025 – April 2026 (16 months) |
-| Machines | 28 (19 production, 4 packaging, 3 infrastructure, 1 logistics, 1 other) |
+| Machines | 28 (20 production, 4 packaging, 3 infrastructure, 1 logistics) |
 | Product lines | 2 (Pão de Mel, Trufa) |
-| Cost centers | 8 (Producao, Materia_Prima, RH, Fixas, Marketing, Impostos, Logistica, Manutencao) |
+| Cost centers | 8 planned in synthetic budget; 15 used in supplier-lookup categorization (mismatched, see Known Limitations) |
 | Supplier mappings | 118 entries in lookup seed |
-| dbt models | 8 (5 silver views, 3 gold tables) |
+| dbt models | 9 (5 silver views, 4 gold tables) |
 | Dashboard pages | 4 (Home, SKU Economics, Equipment Status, Budget Variance) |
 
 ---
