@@ -5,6 +5,7 @@ on:
     branches: [main]
   push:
     branches: [main]
+
 jobs:
   dbt-test:
     runs-on: ubuntu-latest
@@ -21,13 +22,17 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Set up GCP credentials
+        env:
+          GCP_CREDS: ${{ secrets.GCP_CREDENTIALS }}
         run: |
-          echo '${{ secrets.GCP_CREDENTIALS }}' > gcp-credentials.json
+          echo "$GCP_CREDS" > gcp-credentials.json
 
       - name: Set up dbt profiles
+        env:
+          DBT_PROF: ${{ secrets.DBT_PROFILES }}
         run: |
           mkdir -p ~/.dbt
-          echo '${{ secrets.DBT_PROFILES }}' > ~/.dbt/profiles.yml
+          echo "$DBT_PROF" > ~/.dbt/profiles.yml
 
       - name: Install dbt packages
         run: dbt deps
@@ -51,6 +56,8 @@ jobs:
           
       - name: Drop CI dataset
         if: always()
-        run: bq rm -r -f -d factory_lakehouse_ci
+        run: |
+          gcloud auth activate-service-account --key-file=gcp-credentials.json
+          bq rm -r -f -d factory-lakehouse:factory_lakehouse_ci
         env:
           GOOGLE_APPLICATION_CREDENTIALS: gcp-credentials.json
