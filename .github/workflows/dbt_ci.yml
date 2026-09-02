@@ -1,9 +1,10 @@
 name: dbt CI
 
 on:
+  pull_request:
+    branches: [main]
   push:
     branches: [main]
-
 jobs:
   dbt-test:
     runs-on: ubuntu-latest
@@ -17,7 +18,7 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install dbt-bigquery
+        run: pip install -r requirements.txt
 
       - name: Set up GCP credentials
         run: |
@@ -33,7 +34,23 @@ jobs:
         env:
           GOOGLE_APPLICATION_CREDENTIALS: gcp-credentials.json
 
+      - name: Run dbt seed
+        run: dbt seed --target ci
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: gcp-credentials.json
+
+      - name: Run dbt run
+        run: dbt run --target ci
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: gcp-credentials.json
+
       - name: Run dbt tests
-        run: dbt test
+        run: dbt test --target ci
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: gcp-credentials.json
+          
+      - name: Drop CI dataset
+        if: always()
+        run: bq rm -r -f -d factory_lakehouse_ci
         env:
           GOOGLE_APPLICATION_CREDENTIALS: gcp-credentials.json
