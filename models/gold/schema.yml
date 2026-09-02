@@ -78,9 +78,6 @@ models:
         tests:
           - not_null
           - unique
-      - name: equipment_name
-        tests:
-          - not_null
       - name: machine_type
         tests:
           - not_null
