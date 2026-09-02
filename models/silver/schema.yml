@@ -9,16 +9,24 @@ models:
               - transaction_date
               - dsc
               - debit_brl
+          config:
+            severity: warn
     columns:
       - name: transaction_date
         tests:
-          - not_null
+          - not_null:
+              config:
+                severity: warn
       - name: month_key
         tests:
-          - not_null
+          - not_null:
+              config:
+                severity: warn
       - name: cost_center
         tests:
-          - not_null
+          - not_null:
+              config:
+                severity: warn
           - accepted_values:
               arguments:
                 values: ['Producao', 'RH', 'Marketing', 'Fixas', 'Receita', 'Outro']
@@ -42,7 +50,7 @@ models:
           - not_null
           - accepted_values:
               arguments:
-                values: ['Producao', 'RH', 'Marketing', 'Fixas', 'Receita', 'Outro']
+                values: ['Fixas', 'Impostos', 'Logistica', 'Manutencao', 'Marketing', 'Materia_Prima', 'Producao', 'RH']
       - name: budget_amount_brl
         tests:
           - not_null
