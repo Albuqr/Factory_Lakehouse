@@ -53,6 +53,8 @@ try:
     if df.empty:
         st.warning("No SKU economics data available")
     else:
+        df["product_line"] = df["product_line"].replace({"pao_de_mel": "Line A", "trufa": "Line B"})
+
         col1, col2 = st.columns(2)
 
         with col1:
