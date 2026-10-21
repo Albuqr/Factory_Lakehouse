@@ -16,3 +16,7 @@ data/
 *.key
 *.p12
 *.pfx
+.env.testkit
+testkit-reports/
+testkit/web/node_modules/
+testkit/.bin/
