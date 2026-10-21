@@ -49,7 +49,7 @@ try:
         2. Update seed_supplier_lookup.csv with actual transaction descriptions
         3. Re-run dbt models
 
-        **Current Status:** 2 of 3 dashboard pages are fully functional (SKU Economics and Equipment Status).
+        **Current Status:** the SKU Economics and Equipment Status pages are available, and both rely on synthetic data (see README, Known Limitations).
         """)
     else:
         col1, col2, col3 = st.columns(3)

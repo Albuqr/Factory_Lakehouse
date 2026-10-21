@@ -30,6 +30,8 @@ try:
     if df.empty:
         st.warning("No equipment status data available")
     else:
+        df["production_line"] = df["production_line"].replace({"pao_de_mel": "Line A", "trufa": "Line B"})
+
         col1, col2 = st.columns(2)
 
         with col1:
@@ -100,7 +102,7 @@ try:
                 return 'background-color: #dcfce7; color: #166534'
 
         styled_df = filtered_df[['item_id', 'machine_type', 'production_line', 'next_due_date', 'days_until_due',
-                                 'maintenance_status']].style.applymap(
+                                 'maintenance_status']].style.map(
             color_status,
             subset=['maintenance_status']
         )

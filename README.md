@@ -1,12 +1,12 @@
 # Factory Lakehouse
 
-A data lakehouse for a Brazilian confectionery manufacturer — bridging financial projections with operational reality using BigQuery, dbt, and Streamlit.
+A data lakehouse for a Brazilian food manufacturer — bridging financial projections with operational reality using BigQuery, dbt, and Streamlit.
 
 ---
 
 ## Business Context
 
-The client is a Brazilian confectionery company producing two product lines: **Pão de Mel** and **Trufa**. Operations span **28 machines** across production, packaging, logistics, and infrastructure categories.
+The client is a Brazilian food manufacturer with two product lines. Operations span **28 machines** across production, packaging, logistics, and infrastructure categories.
 
 Until this project, financial data lived in Excel spreadsheets (a DFC cash flow sheet and a DRE budget sheet), maintenance was tracked on paper, and there was no mechanism to compare planned costs against actual spending. Management had no visibility into which product line was more profitable, which machines were overdue for maintenance, or whether any cost center was consistently over budget.
 
@@ -105,7 +105,7 @@ Four dbt tables materialized with business logic and KPIs applied. These are the
 | Model | What it does |
 |---|---|
 | `gold_budget_vs_actual` | Actual spend vs budget per cost center per month; variance in BRL and %; status flags (green/yellow/red/grey) |
-| `gold_cost_per_unit` | Cost per unit, revenue per unit, and gross margin for Pão de Mel and Trufa over 16 months |
+| `gold_cost_per_unit` | Cost per unit, revenue per unit, and gross margin for the two product lines over 16 months |
 | `gold_equipment_status` | Latest maintenance date per machine, next due date, and status: OVERDUE / DUE_SOON / OK |
 | `gold_bi_sku_economics` | BI-facing subset of `gold_cost_per_unit`: exposes only additive measures (planned units, planned cost, units sold, revenue, gross margin) and drops pre-computed ratios. BI tools aggregate columns by default, and averaging a ratio across rows weights each row equally regardless of volume, producing a wrong figure — ratios should be computed at query time from summed numerator and denominator |
 
@@ -179,7 +179,7 @@ Factory_Lakehouse/
 Platform overview showing live metrics (product lines tracked, cost data points, equipment items, overdue maintenance alerts) and a radar chart of platform coverage. Tabs explain the data lakehouse concept and current data availability status.
 
 ### SKU Economics (`/sku_economics`)
-Cost and revenue analysis for Pão de Mel and Trufa. Filters by product and month range. Shows:
+Cost and revenue analysis for the two product lines. Filters by product and month range. Shows:
 - Planned units, total planned cost, average cost per unit
 - Cost per unit trend line over 16 months
 - Gross margin in BRL and percentage
@@ -340,7 +340,7 @@ All bronze ingestion uses `WRITE_TRUNCATE` — every pipeline run reloads the fu
 |---|---|
 | Time range | January 2025 – April 2026 (16 months) |
 | Machines | 28 (20 production, 4 packaging, 3 infrastructure, 1 logistics) |
-| Product lines | 2 (Pão de Mel, Trufa) |
+| Product lines | 2 |
 | Cost centers | 8 planned in synthetic budget; 15 used in supplier-lookup categorization (mismatched, see Known Limitations) |
 | Supplier mappings | 118 entries in lookup seed |
 | dbt models | 9 (5 silver views, 4 gold tables) |

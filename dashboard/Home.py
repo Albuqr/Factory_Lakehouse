@@ -15,7 +15,7 @@ st.set_page_config(
 )
 
 render_sidebar(
-    "End-to-end data platform built for a Brazilian confectionery manufacturer. "
+    "End-to-end data platform built for a Brazilian food manufacturer. "
     "Transforms raw factory data into real-time operational insights using medallion architecture.\n\n"
     "**Stack:** BigQuery · dbt · Streamlit · Python"
 )
@@ -26,7 +26,7 @@ st.markdown("---")
 st.markdown("""
 ### Project Overview
 
-A production-grade data lakehouse built for a Brazilian confectionery manufacturer with 28 machines, 2 product lines (Pão de Mel & Trufa), and operations entirely on paper. This platform bridges financial projections with operational reality through medallion architecture, dbt transformations, and real-time analytics.
+A production-grade data lakehouse built for a Brazilian food manufacturer with 28 machines, 2 product lines, and operations entirely on paper. This platform bridges financial projections with operational reality through medallion architecture, dbt transformations, and real-time analytics.
 
 **Tech Stack:** BigQuery • dbt • Streamlit • Python • Medallion Architecture
 """)
@@ -141,7 +141,7 @@ with tab3:
     **What You Can See:**
 
     ✅ **SKU Economics** (Working)
-    - How much does each Pão de Mel or Trufa unit cost to produce?
+    - How much does a unit of each product line cost to produce?
     - Are costs going up or down over time?
     - 32 data points tracking 2 products across 16 months
 
@@ -184,7 +184,7 @@ with tab5:
 
     From SKU Economics:
     - ✅ Track production cost per unit for each product
-    - ✅ Compare costs between Pão de Mel and Trufa
+    - ✅ Compare costs between the two product lines
     - ✅ See cost trends over 16 months
     - ✅ Identify cost spikes and anomalies
 

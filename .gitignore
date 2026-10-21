@@ -35,3 +35,5 @@ mcp.servers.json
 .scratch/
 docs/
 testkit/
+testkit/web/node_modules/
+testkit/.bin/

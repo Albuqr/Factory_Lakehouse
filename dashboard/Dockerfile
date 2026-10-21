@@ -11,6 +11,9 @@ COPY .streamlit/ .streamlit/
 
 EXPOSE 8765
 
+RUN useradd --create-home app
+USER app
+
 CMD ["streamlit", "run", "Home.py", \
      "--server.port=8765", \
      "--server.address=0.0.0.0", \
