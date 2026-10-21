@@ -16,3 +16,22 @@ data/
 *.key
 *.p12
 *.pfx
+.env.testkit
+testkit-reports/
+.claude/skills/
+.suite/media/auth/
+.suite/media/recordings/
+# AI production suite (local tooling, not tracked)
+AGENTS.md
+CLAUDE.md
+.mcp.json
+mcp.servers.json
+.agents/
+.codex/
+.gemini/
+.githooks/
+.kimi-code/
+.suite/
+.scratch/
+docs/
+testkit/
