@@ -11,9 +11,9 @@ COPY .streamlit/ .streamlit/
 
 EXPOSE 8765
 
-# Runs as root for now: config.py reads the service-account key from GOOGLE_APPLICATION_CREDENTIALS
-# and its file permissions on the host are not known. Switch to a non-root USER once they are.
-# nosemgrep: dockerfile.security.missing-user.missing-user
+RUN useradd --create-home app
+USER app
+
 CMD ["streamlit", "run", "Home.py", \
      "--server.port=8765", \
      "--server.address=0.0.0.0", \
